@@ -1,0 +1,23 @@
+{
+  "elapsed_s": 25.96445673299968,
+  "expected_frequency_hz": [
+    3.5,
+    21.9
+  ],
+  "measured_frequency_hz": [
+    3.499963493657384,
+    21.910112312849474
+  ],
+  "note": "Peak RSS includes the complete benchmark process; tracemalloc reports Python allocations.",
+  "platform": "Linux-6.18.35-x86_64-with-glibc2.39",
+  "process_peak_rss_mb": 281.875,
+  "python": "3.12.13",
+  "python_peak_memory_mb": 91.00130081176758,
+  "relative_frequency_error": [
+    1.0430383604566526e-05,
+    0.00046174944518153233
+  ],
+  "run_id": "8ca83cabbf151d03",
+  "video": "data/samples/cantilever_baseline.mp4"
+}
+

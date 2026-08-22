@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="150" viewBox="0 0 560 150" role="img" aria-labelledby="title desc">
+  <title id="title">ModeLens logo</title>
+  <desc id="desc">A restrained blue vibration curve beside the word ModeLens.</desc>
+  <rect width="560" height="150" rx="22" fill="#f5f7fa"/>
+  <path d="M38 82 C62 82 62 35 88 35 S116 115 145 115 S175 58 204 58" fill="none" stroke="#35618f" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="204" cy="58" r="9" fill="#ef8354"/>
+  <text x="238" y="94" font-family="system-ui, sans-serif" font-size="54" font-weight="700" fill="#17212b">ModeLens</text>
+</svg>
+
