@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If ModeLens supports your work, cite this software."
+title: "ModeLens: Video-to-Modal Digital Twin"
+type: software
+authors:
+  - family-names: "Luján Domenech"
+    given-names: "Raúl"
+version: 1.0.0
+date-released: 2026-08-14
+license: MIT
+repository-code: "https://github.com/rld8/modelens"
+
