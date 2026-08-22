@@ -1,0 +1,72 @@
+{
+  "baseline": {
+    "axis_end_px": [
+      1140,
+      360
+    ],
+    "axis_start_px": [
+      144,
+      360
+    ],
+    "duration_s": 10.0,
+    "fps": 120.0,
+    "frame_count": 1200,
+    "generator": "modelens.synthetic.generate_cantilever_video",
+    "limitations": [
+      "The renderer follows ideal Euler-Bernoulli mode shapes.",
+      "Compression and additive image noise are simulated; rolling shutter is not."
+    ],
+    "modes": [
+      {
+        "amplitude_px": 48.0,
+        "damping_ratio": 0.025,
+        "frequency_hz": 3.5,
+        "phase_rad": 0.0
+      },
+      {
+        "amplitude_px": 10.0,
+        "damping_ratio": 0.015,
+        "frequency_hz": 21.9,
+        "phase_rad": 0.35
+      }
+    ],
+    "seed": 42,
+    "synthetic": true
+  },
+  "description": "Synthetic ground truth for the bundled ModeLens demonstration.",
+  "modified": {
+    "axis_end_px": [
+      1140,
+      360
+    ],
+    "axis_start_px": [
+      144,
+      360
+    ],
+    "duration_s": 10.0,
+    "fps": 120.0,
+    "frame_count": 1200,
+    "generator": "modelens.synthetic.generate_cantilever_video",
+    "limitations": [
+      "The renderer follows ideal Euler-Bernoulli mode shapes.",
+      "Compression and additive image noise are simulated; rolling shutter is not."
+    ],
+    "modes": [
+      {
+        "amplitude_px": 48.0,
+        "damping_ratio": 0.03,
+        "frequency_hz": 3.1,
+        "phase_rad": 0.0
+      },
+      {
+        "amplitude_px": 10.0,
+        "damping_ratio": 0.02,
+        "frequency_hz": 18.6,
+        "phase_rad": 0.35
+      }
+    ],
+    "seed": 43,
+    "synthetic": true
+  },
+  "schema_version": "1.0"
+}
