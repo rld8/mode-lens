@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.venv/
+.env
+
+runs/
+data/raw/
+data/interim/
+data/processed/
+
+*:Zone.Identifier
