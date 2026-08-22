@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title }}</title>
+  <style>
+    :root { color-scheme: light; --ink: #17212b; --muted: #52606d; --accent: #35618f; --paper: #fff; --line: #dfe5eb; }
+    body { margin: 0; background: #f5f7fa; color: var(--ink); font: 16px/1.55 system-ui, sans-serif; }
+    main { max-width: 1080px; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+    h1 { margin-bottom: .25rem; font-size: clamp(2rem, 4vw, 3.4rem); letter-spacing: -.04em; }
+    h2 { margin-top: 2.5rem; border-bottom: 1px solid var(--line); padding-bottom: .5rem; }
+    .subtitle, .muted { color: var(--muted); }
+    .warning { background: #fff4e5; border-left: 5px solid #ef8354; padding: 1rem; margin: 1.5rem 0; }
+    .card { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 1rem; margin: 1rem 0; box-shadow: 0 3px 18px #1d2d3d0c; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: .6rem; border-bottom: 1px solid var(--line); }
+    th { color: var(--muted); font-size: .9rem; }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+    pre { overflow: auto; background: #101820; color: #dfe9f3; padding: 1rem; border-radius: 8px; font-size: .78rem; }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <p class="muted">ModeLens / {{ run_id }}</p>
+    <h1>{{ title }}</h1>
+    <p class="subtitle">{{ subtitle }}</p>
+  </header>
+  <p class="warning"><strong>Scope:</strong> {{ warning }}</p>
+
+  {% if quality %}
+  <h2>Capture quality</h2>
+  <div class="card">
+    <p><strong>Score:</strong> {{ "%.1f"|format(quality.score) }}/100</p>
+    <table><thead><tr><th>Metric</th><th>Value</th><th>Threshold</th><th>Result</th></tr></thead><tbody>
+    {% for metric in quality.metrics %}
+      <tr><td>{{ metric.name }}</td><td>{{ "%.4g"|format(metric.value) }} {{ metric.unit }}</td><td>{{ metric.threshold }}</td><td>{{ "pass" if metric.passed else "warning" }}</td></tr>
+    {% endfor %}
+    </tbody></table>
+  </div>
+  {% endif %}
+
+  {% if modes %}
+  <h2>Measured modes</h2>
+  <div class="card"><table><thead><tr><th>Mode</th><th>Frequency</th><th>95% interval</th><th>Damping</th><th>POD energy</th><th>Flags</th></tr></thead><tbody>
+  {% for mode in modes %}
+    <tr><td>{{ mode.index }}</td><td>{{ "%.4f"|format(mode.frequency_hz) }} Hz</td><td>{{ mode.frequency_ci_hz }}</td><td>{{ mode.damping_ratio }}</td><td>{{ "%.2f"|format(100 * mode.energy_fraction) }}%</td><td>{{ mode.quality_flags|join(", ") }}</td></tr>
+  {% endfor %}
+  </tbody></table></div>
+  {% endif %}
+
+  {% if twin %}
+  <h2>Restricted digital twin</h2>
+  <div class="card">
+    <p><strong>{{ twin.parameter_name }}:</strong> {{ "%.6g"|format(twin.fitted_value) }}</p>
+    <p><strong>Weighted residual cost:</strong> {{ "%.6g"|format(twin.weighted_cost) }}</p>
+    {% for item in twin.warnings %}<p class="muted">{{ item }}</p>{% endfor %}
+  </div>
+  {% endif %}
+
+  {% if comparison %}
+  <h2>Mode matching</h2>
+  <div class="card"><table><thead><tr><th>Baseline</th><th>Modified</th><th>MAC</th><th>Δf/f</th><th>Label</th><th>Reason</th></tr></thead><tbody>
+  {% for match in comparison.matches %}
+    <tr><td>{{ match.baseline_index }}</td><td>{{ match.modified_index }}</td><td>{{ "%.3f"|format(match.mac) }}</td><td>{{ "%.2f"|format(100 * match.relative_frequency_change) }}%</td><td>{{ match.label.value }}</td><td>{{ match.reason }}</td></tr>
+  {% endfor %}
+  </tbody></table></div>
+  {% endif %}
+
+  <h2>Figures</h2>
+  {% for figure in figures %}<div class="card">{{ figure|safe }}</div>{% endfor %}
+
+  <details><summary>Machine-readable summary</summary><pre>{{ result_json }}</pre></details>
+</main>
+</body>
+</html>
+
