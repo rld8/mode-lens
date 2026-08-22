@@ -1,0 +1,126 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "modelens"
+version = "1.0.0"
+description = "Turn an ordinary vibration video into an explainable modal experiment."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { file = "LICENSE" }
+authors = [{ name = "Raúl Luján Domenech" }]
+keywords = ["computer-vision", "modal-analysis", "signal-processing", "digital-twin"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering",
+]
+dependencies = [
+  "jinja2>=3.1.5",
+  "numpy>=2.2.0",
+  "opencv-python-headless>=4.10.0.84",
+  "pandas>=2.2.0",
+  "plotly>=6.0.0",
+  "pydantic>=2.10.0",
+  "pydantic-settings>=2.7.0",
+  "pyyaml>=6.0.2",
+  "rich>=13.9.0",
+  "scipy>=1.15.0",
+  "streamlit>=1.41.0",
+  "structlog>=25.1.0",
+  "typer>=0.15.0",
+]
+
+[project.scripts]
+modelens = "modelens.interfaces.cli:app"
+
+[dependency-groups]
+dev = [
+  "bandit>=1.8.0",
+  "hypothesis>=6.125.0",
+  "mypy>=1.14.0",
+  "pip-audit>=2.7.3",
+  "pre-commit>=4.1.0",
+  "pytest>=8.3.0",
+  "pytest-cov>=6.0.0",
+  "ruff>=0.9.0",
+  "types-pyyaml>=6.0.12.20241230",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/modelens"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"templates" = "modelens/templates"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+exclude = ["notebooks"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "RUF", "N", "D"]
+ignore = ["D203", "D213", "D105", "RUF001"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["D"]
+"scripts/*.py" = ["D"]
+"src/modelens/interfaces/streamlit_app/**/*.py" = ["D"]
+"src/modelens/interfaces/streamlit_app/Home.py" = ["D", "N999"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["src/modelens"]
+exclude = ["src/modelens/interfaces/streamlit_app/pages"]
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = [
+  "cv2",
+  "cv2.*",
+  "pandas",
+  "pandas.*",
+  "plotly.*",
+  "scipy.*",
+  "streamlit.*",
+  "structlog.*",
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-markers --cov=modelens --cov-report=term-missing --cov-fail-under=85"
+testpaths = ["tests"]
+markers = [
+  "integration: tests that exercise file and OpenCV adapters",
+  "e2e: end-to-end command tests",
+  "slow: tests excluded from the quickest feedback loop",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["modelens"]
+omit = [
+  "src/modelens/interfaces/streamlit_app/*",
+  "src/modelens/interfaces/streamlit_app/pages/*",
+  "src/modelens/interfaces/cli.py",
+  "src/modelens/adapters/plotly_presenter.py",
+  "src/modelens/bootstrap.py",
+  "src/modelens/logging.py",
+  "src/modelens/ports/*",
+]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+exclude_also = [
+  "if TYPE_CHECKING:",
+  "if __name__ == .__main__.:",
+  "raise NotImplementedError",
+]
+
+[tool.bandit]
+exclude_dirs = ["tests", ".venv"]
+skips = ["B101"]
